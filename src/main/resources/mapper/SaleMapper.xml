@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.kgc.demo.dao.SaleMapper" >
+  <resultMap id="BaseResultMap" type="cn.kgc.demo.pojo.Sale" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="REAL" />
+    <result column="goodName" property="goodname" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="totalPrice" property="totalprice" jdbcType="REAL" />
+    <result column="saleDate" property="saledate" jdbcType="DATE" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="saleName" property="salename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, price, goodName, quantity, totalPrice, saleDate, userId, productId, saleName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sale
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sale
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.kgc.demo.pojo.Sale" >
+    insert into sale (id, price, goodName, 
+      quantity, totalPrice, saleDate, 
+      userId, productId, saleName
+      )
+    values (#{id,jdbcType=INTEGER}, #{price,jdbcType=REAL}, #{goodname,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=INTEGER}, #{totalprice,jdbcType=REAL}, #{saledate,jdbcType=DATE}, 
+      #{userid,jdbcType=INTEGER}, #{productid,jdbcType=INTEGER}, #{salename,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.kgc.demo.pojo.Sale" >
+    insert into sale
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="goodname != null" >
+        goodName,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="totalprice != null" >
+        totalPrice,
+      </if>
+      <if test="saledate != null" >
+        saleDate,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="salename != null" >
+        saleName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="goodname != null" >
+        #{goodname,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="totalprice != null" >
+        #{totalprice,jdbcType=REAL},
+      </if>
+      <if test="saledate != null" >
+        #{saledate,jdbcType=DATE},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="salename != null" >
+        #{salename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.kgc.demo.pojo.Sale" >
+    update sale
+    <set >
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="goodname != null" >
+        goodName = #{goodname,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="totalprice != null" >
+        totalPrice = #{totalprice,jdbcType=REAL},
+      </if>
+      <if test="saledate != null" >
+        saleDate = #{saledate,jdbcType=DATE},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="salename != null" >
+        saleName = #{salename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.kgc.demo.pojo.Sale" >
+    update sale
+    set price = #{price,jdbcType=REAL},
+      goodName = #{goodname,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      totalPrice = #{totalprice,jdbcType=REAL},
+      saleDate = #{saledate,jdbcType=DATE},
+      userId = #{userid,jdbcType=INTEGER},
+      productId = #{productid,jdbcType=INTEGER},
+      saleName = #{salename,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selBookInfoByParams" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/> from sale
+    <where>
+
+      <if test="name!=null and name!=''">
+        AND goodName LIKE concat("%",#{name},"%")
+      </if>
+
+    </where>
+    order by saleDate desc
+  </select>
+</mapper>
